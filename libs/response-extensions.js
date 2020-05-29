@@ -79,7 +79,7 @@ module.exports.send = (options, req, res) => {
             data.on('end', cb)
 
             return
-          } else if (data instanceof Promise) {
+          } else if (data.then === 'function') {
             if (!contentType) contentType = TYPE_JSON
 
             data
