@@ -79,6 +79,19 @@ module.exports.send = (options, req, res) => {
             data.on('end', cb)
 
             return
+          } else if (data instanceof Promise) {
+            if (!contentType) contentType = TYPE_JSON
+
+            data
+              .then((resolved) => {
+                preEnd(res, contentType, code)
+                res.end(stringify(resolved), cb)
+              }).catch(error => {
+                error = parseErr(error)
+                preEnd(res, TYPE_JSON, error.statusCode)
+                res.end(error.data, cb)
+              })
+            return
           } else {
             if (!contentType) contentType = TYPE_JSON
             data = stringify(data)
