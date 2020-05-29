@@ -19,6 +19,7 @@ const stream = {
   pipe () {},
   on () {}
 }
+const promise = Promise.resolve('Hello World!');
 const headers = {
   'content-type': 'text/plain',
   'x-framework': 'restana',
@@ -58,6 +59,9 @@ suite
   })
   .add('stream', function () {
     send(stream)
+  })
+  .add('promise', function() {
+    send(promise)
   })
   .on('complete', function () {
     report(this)
