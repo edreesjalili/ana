@@ -57,8 +57,9 @@ describe('All Responses', () => {
     res.send(Promise.resolve({ hello: 'world' }))
   })
 
-  service.get('/promise-with-content-type', (req, res) => {
+  service.get('/promise-with-headers', (req, res) => {
     res.setHeader('content-type', 'application/json')
+    res.setHeader('x-framework', 'restana')
     res.send(Promise.resolve({ hello: 'world' }))
   })
 
@@ -156,12 +157,13 @@ describe('All Responses', () => {
       .expect('content-type', 'application/json; charset=utf-8')
   })
 
-  it('should GET 200 and json content on /promise-with-content-type', async () => {
+  it('should GET 200 and json content on /promise-with-headers', async () => {
     await request(server)
-      .get('/promise-with-content-type')
+      .get('/promise-with-headers')
       .expect(200)
       .expect({ hello: 'world' })
       .expect('content-type', 'application/json')
+      .expect('x-framework', 'restana')
   })
 
   it('should GET 503 and json content on /promise-rejected', async () => {
